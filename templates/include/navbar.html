@@ -46,27 +46,40 @@
 					</div>	
 
 					<!-- Icon header -->
-					{% if user.is_authenticated %}
+					
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<div class="flex-c-m h-full  cl0 p-r-25 bor6 trans-04 ">
-							<a href="{% url 'signout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
-						</div>
-					</div>
-					{% else %}
-					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<div class="flex-c-m h-full  cl0 p-r-25 bor6 trans-04 ">
-							<div class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11">
-								<a href="{% url 'signin' %}"><i class="fa-solid fa-user"></i></a>
+						<!-- Example single danger button -->
+						{% if user.is_authenticated%}
+							<div class="btn-group">
+							  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+								{{user.first_name}}
+							  </button>
+							  <ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+								<li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
+								<li><a class="dropdown-item" href="{% url 'signout' %}">logout</a></li>
+								{% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
+								{% comment %} <li><a class="dropdown-item" href="#">Separated link</a></li> {% endcomment %}
+							  </ul>
 							</div>
-						</div>
-					{% endif %}	
+						{% else %}
+						<div class="btn-group">
+							<button type="button" class="btn btn-light dropdown-toggle" >
+								<a href="{% url 'signin' %}">
+							  	Signin
+								</a>
+							</button>
+							{% comment %} <ul class="dropdown-menu">
+							  <li><a class="dropdown-item" href="#">Dashboard</a></li>
+							  <li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
+							  <li><a class="dropdown-item" href="{% url 'signout' %}">logout</a></li>
+							  {% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
+							  {% comment %} <li><a class="dropdown-item" href="#">Separated link</a></li>
+							</ul>
+						  </div> {% endcomment %}
+						{% endif %}
 
-						<div class="flex-c-m h-full  cl0 p-r-25 bor6 trans-04 ">
-							<div class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 " >
-								<a href="{% url 'cart' %}"><i class="zmdi zmdi-shopping-cart"></i></a> 
-
-							</div>
-						</div>
+						
 							
 						<div class="flex-c-m h-full p-lr-19">
 							<div class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 js-show-sidebar">
@@ -87,20 +100,37 @@
 
 			<!-- Icon header -->
 
-			{% if user.is_authenticated %}
-					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<div class="flex-c-m h-full p-r-25 bor6">
-							<a href="{% url 'signout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
-						</div>
+			<div class="wrap-icon-header flex-w flex-r-m h-full">
+				<!-- Example single danger button -->
+				{% if user.is_authenticated%}
+					<div class="btn-group">
+					  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						{{user.first_name}}
+					  </button>
+					  <ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Dashboard</a></li>
+						<li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
+						<li><a class="dropdown-item" href="{% url 'signout' %}">logout</a></li>
+						{% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
+						{% comment %} <li><a class="dropdown-item" href="#">Separated link</a></li> {% endcomment %}
+					  </ul>
 					</div>
-					{% else %}
-					<div class="wrap-icon-header flex-w flex-r-m h-full">
-						<div class="flex-c-m h-full p-r-25 bor6">
-							<div class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11">
-								<a href="{% url 'signin' %}"><i class="fa-solid fa-user"></i></a>
-							</div>
-						</div>
-					{% endif %}
+				{% else %}
+				<div class="btn-group">
+					<button type="button" class="btn btn-light dropdown-toggle" >
+						<a href="{% url 'signin' %}">
+						  Signin
+						</a>
+					</button>
+					{% comment %} <ul class="dropdown-menu">
+					  <li><a class="dropdown-item" href="#">Dashboard</a></li>
+					  <li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
+					  <li><a class="dropdown-item" href="{% url 'signout' %}">logout</a></li>
+					  {% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
+					  {% comment %} <li><a class="dropdown-item" href="#">Separated link</a></li>
+					</ul>
+				  </div> {% endcomment %}
+				{% endif %}
 
 			<!-- Button show menu -->
 			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">

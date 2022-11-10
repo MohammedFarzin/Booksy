@@ -13,5 +13,14 @@ urlpatterns = [
     path('resend-otp',otp.resend_otp,name='resend_otp'),
     path('activate_email/<uidb64>/<token>', views.activate_email, name='activate_email'),
     path('signin/phone_number_page', views.phone_number_page, name='phone_number_page'),
+
+    #dashboard
+    path('dashboard/', views.dashboard, name="dashboard"),
+
+    path('forgotpassword/', views.forgot_password, name="forgot_password"),
+    path('reset_password_validate/<uidb64>/<token>', views.reset_password_validate, name="reset_password_validate"),
+    path('reset_password/', views.reset_password, name="reset_password"),
+
+    
     
 ]

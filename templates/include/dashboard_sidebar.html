@@ -1,0 +1,17 @@
+<aside class="col-md-3 m-5">
+  <!--   SIDEBAR   -->
+  <ul class="list-group text-center">
+    <a class="list-group-item {% if '/dashboard/' in request.path %}bg-white text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'dashboard' %}"> Dashboard </a>
+    <a class="list-group-item {% if '/my_order/' in request.path %}bg-white text-dark  {% else %} bg-dark text-white {% endif %} card mb-1 "  href="#"> My Orders </a>
+    <a class="list-group-item {% if '/my_profile/' in request.path %}bg-white text-dark {% else %} bg-dark text-white {% endif %} card mb-1 " href="#"> Edit Profile </a>
+    <a class="list-group-item {% if '/my_address/' in request.path %}bg-white text-dark {% else %} bg-dark text-white {% endif %} card mb-1 " href="#"> Manage Address </a>
+    <a class="list-group-item {% if '/my_coupon/' in request.path %}bg-white text-dark {% else %} bg-dark text-white {% endif %} card mb-1 " href="#"> My coupons </a>
+    <a class="list-group-item {% if '/change_password/' in request.path %}bg-white text-dark {% else %} bg-dark text-white {% endif %} card mb-1 " href="#"> Change Password </a>
+  </ul>
+  <br>
+  <a class="btn btn-light btn-block" href="{% url 'signout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a>
+  <!--   SIDEBAR //END    -->
+</aside>
+
+{% comment %} <a class="list-group-item {% if '/accounts/' == request.path %}active{% endif %}" href="{% url 'dashboard' %}"> Dashboard </a> {% endcomment %}
+{% comment %} <a class="list-group-item {% if '/my_orders/' in request.path %}active{% endif %}" href="{% url 'my_orders' %}"> My Orders </a> {% endcomment %}
