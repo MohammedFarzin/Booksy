@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block script %}
+.text-font{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-weight: 700;
+    letter-spacing: .156rem;
+    font-size: 1.125rem;
+    }
+    .text-price{
+    padding: 0 .625rem;
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 700;
+    line-height: .813rem;
+    letter-spacing: 1.6px;
+    }
+    .text-descriptions{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.125rem;
+    margin: .313rem 0 .938rem;
+    padding: 0 .625rem;
+    }
+    .button-color{
+    color: #4e4e4e ;
+    border-color: #4e4e4e ;
+    }
+    .button-order{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 700;
+    background-color: hsl(90, 40%, 50%);
+    color: white;
+    }
+{% endblock %}
+
+
+{% block content %}
+{% include 'include/navbarwhite.html' %}
+
+<div class="container my-5 py-5">
+
+    <!--Section: Design Block-->
+    <section>
+  
+      <div class="row">
+        <div class="col-md-8">
+         
+          <div class="card mb-4 accordion" id="accordionExample">
+            <div class="card body accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <div class="accordion-button collapsed text-uppercase text-font h4" type="button"
+                  data-mdb-toggle="collapse" data-mdb-target="#collapseOne" aria-expanded="false"
+                  aria-controls="collapseOne">
+                  Promo/Student Code or Vouchers
+                </div>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                data-mdb-parent="#accordionExample">
+                <div class="accordion-body">
+                  <div class="form-outline d-flex">
+                    <input type="text" id="form1" class="form-control" />
+                    <label class="form-label" for="form1">Enter code</label>
+                  </div>
+                </div>
+              </div>
+  
+  
+  
+            </div>
+          </div>
+  
+          <div class="card mb-4">
+            
+          </div>
+        </div>
+        
+  
+        <div class="col-md-8 mb-4">
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <h5 class="mb-0 text-font text-uppercase">Delivery address</h5>
+            </div>
+            <div class="card-body">
+              <form action="" method="POST">
+                {% csrf_token %}
+                <div class="row mb-4 ">
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="text" id="form11Example1" class="form-control" name="first_name" required/>
+                      <label class="form-label" for="form11Example1">First name</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="text" id="form11Example2" class="form-control" name="last_name"/>
+                      <label class="form-label" for="form11Example2">Last name</label>
+                    </div>
+                  </div>
+                </div>
+
+                 <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="email" id="form11Example5" class="form-control" name="email" required/>
+                    <label class="form-label" for="form11Example5">Email</label>
+                </div>
+
+
+                <!-- Number input -->
+                <div class="form-outline mb-4">
+                    <input type="number" id="form11Example6" class="form-control" name="phone" required/>
+                    <label class="form-label" for="form11Example6">Phone</label>
+                </div>
+  
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <input type="text" id="form11Example4" class="form-control" name="address" required/>
+                  <label class="form-label" for="form11Example4">Address</label>
+                </div>
+  
+               <!-- Text input -->
+               <div class="form-outline mb-4 ">
+                    <input type="text" id="form11Example3" class="form-control" name="city" required/>
+                    <label class="form-label" for="form11Example3">City</label>
+                </div>
+  
+                
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="form11Example3" class="form-control" name="state" required/>
+                    <label class="form-label" for="form11Example3">State</label>
+                </div>
+
+
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="form11Example3" class="form-control" name="country" required/>
+                    <label class="form-label" for="form11Example3">Country</label>
+                </div>
+  
+                <!-- Message input -->
+                <div class="form-outline mb-4">
+                  <textarea class="form-control" id="form11Example7" rows="4" name="order_note"></textarea>
+                  <label class="form-label" for="form11Example7">Additional information</label>
+                </div>
+  
+                <!-- Checkbox -->
+                
+                    <div class="text-center">
+                        <button type="submit" name="submit" class="btn btn-dark button-order col-md-10">Place order</button>
+                    </div>
+            
+            </div>
+  
+          </div>
+          
+  
+        </div>
+  
+        <div class="col-md-4 mb-4 position-static">
+            <div class="card mb-4">
+              <div class="card-header py-3">
+                <h5 class="mb-0 text-font">1 item <span class="float-end mt-1"
+                    style="font-size: 13px ;">Edit</span></h5>
+              </div>
+              
+              <div class="card-body">
+                
+                <div class="row">
+                  {% for cart_item in cart_items %}
+                  <div class="col-md-4 mb-2">
+                    <img src="{{ cart_item.product.images.url }}"
+                      class="rounded-3" style="width: 100px;" alt="{{ cart_item.product.product_name }}" />
+                  </div>
+                  <div class="col-md-6 ms-3">
+                    <span class="mb-0 text-price">₹{{ cart_item.product.price }}</span>
+                    <p class="mb-0 text-descriptions fw-bold">{{ cart_item.product.product_name }}</p>
+                    <span class="text-descriptions ">
+                      {% if cart_item.variations.all %}
+                      {% for item in cart_item.variations.all %}
+                        {{ item.variation_values }}
+                      {% endfor %}
+                      {% endif %}
+                    </span> 
+                      {% comment %} <span class="text-descriptions fw-bold">UK 8</span> {% endcomment %}
+                    <p class="text-descriptions mt-0">Qty:<span class="text-descriptions fw-bold">{{ cart_item.quantity }}</span>
+                    </p>
+                    
+                  </div>
+                  {% endfor %}                  
+                </div>
+                
+                <div class="card-footer mt-4">
+                  <ul class="list-group list-group-flush">
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0 text-muted">
+                      Subtotal
+                      <span>₹{{total}}</span>
+                    </li>
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center px-0 fw-bold text-uppercase">
+                      Total to pay
+                      <span>₹{{grand_total}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </form>
+                
+    
+              </div>
+              
+            </div>
+          </div>
+  
+  
+  
+  
+      </div>
+  
+    </section>
+    <!--Section: Design Block-->
+  
+  </div>
+
+
+  {% endblock %}
