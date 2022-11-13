@@ -16,6 +16,9 @@ from django.utils.encoding import force_bytes
 from cart.views import _cart_id
 from cart.models import Cart, CartItems
 
+#requests
+import requests
+
 
 
 # Create your views here.
@@ -125,8 +128,26 @@ def signin(request):
                                     item.save()
                 except:
                     pass
+
                 login(request,user)
-                return redirect('home')
+                messages.success(request, 'Logged in successfully')
+                # here we get the http://127.0.0.1:8000/authentication/signin/?next=/cart/checkout/ url
+                url = request.META.get('HTTP_REFERER')
+                print(url)
+
+                try:
+                    #here we get the next=/cart/checkout/ url 
+                    query = requests.utils.urlparse(url).query
+                    print(query)
+                    #Now from here we gonna split it
+                    params = dict(x.split('=') for x in query.split('&'))
+                    print('params -------------->> ', params)
+                    if 'next' in params:
+                        nextPage = params['next']
+                        return redirect(nextPage)
+                except:
+                    return redirect('home')
+
             else :
                 messages.error(request,'Incorrect Username or Password')
                 return redirect('signin') 
