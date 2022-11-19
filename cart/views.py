@@ -4,6 +4,7 @@ from .models import Cart,CartItems
 from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from authentication.models import UserProfile
 
 
 
@@ -207,9 +208,10 @@ def checkout(request, total=0, quantity=0, cart_items=None):
         grand_total = 0
         if request.user.is_authenticated:
             cart_items = CartItems.objects.filter(user=request.user)
-        else:
-            cart=Cart.objects.get(cart_id=_cart_id(request))
-            cart_items=CartItems.objects.filter(cart=cart, is_active=True)
+
+            userprofile = UserProfile.objects.filter(user=request.user).first()
+            print(userprofile) 
+        
         for cart_item in cart_items:
             total += (cart_item.product.price*cart_item.quantity)
             quantity += cart_item.quantity
@@ -224,6 +226,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
         'cart_items':cart_items,
         'tax':tax,
         'grand_total':grand_total,
+        'userprofile': userprofile,
     }
     return render(request, 'cart/checkout.html', context)
 

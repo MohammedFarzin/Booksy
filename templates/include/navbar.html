@@ -45,19 +45,39 @@
 					
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
 						<!-- Example single danger button -->
-						{% if user.is_authenticated%}
-							<div class="btn-group">
-							  <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-								{{user.first_name}}
-							  </button>
-							  <ul class="dropdown-menu">
+						{% if request.user.is_superuser  %}
+
+						<div class="btn-group">
+							<button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+								Admin
+							</button>
+							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
 								<li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
+								<li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
 								<li><a class="dropdown-item" href="{% url 'signout' %}">logout</a></li>
 								{% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
 								{% comment %} <li><a class="dropdown-item" href="#">Separated link</a></li> {% endcomment %}
-							  </ul>
+							</ul>
 							</div>
+						{% endif %}
+						{% if user.is_authenticated %}
+							
+						
+								<div class="btn-group">
+								<button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+									{{user.first_name}}
+								</button>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+									<li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
+									<li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
+									<li><a class="dropdown-item" href="{% url 'signout' %}">logout</a></li>
+									{% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
+									{% comment %} <li><a class="dropdown-item" href="#">Separated link</a></li> {% endcomment %}
+								</ul>
+								</div>
+							
 						{% else %}
 						<div class="btn-group">
 							<button type="button" class="btn btn-light dropdown-toggle" >
@@ -106,6 +126,7 @@
 					  <ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="#">Dashboard</a></li>
 						<li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
+						<li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
 						<li><a class="dropdown-item" href="{% url 'signout' %}">logout</a></li>
 						{% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
 						{% comment %} <li><a class="dropdown-item" href="#">Separated link</a></li> {% endcomment %}

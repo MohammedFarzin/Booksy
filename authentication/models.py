@@ -50,8 +50,19 @@ class Account(AbstractBaseUser):
        def fullname(self):
               return f"".format(self.first_name,self.last_name)
     
+       
     
+class UserProfile(models.Model):
+       user = models.OneToOneField(Account, on_delete=models.CASCADE)
+       address = models.CharField(max_length=200, blank=True)
+       profile_picture = models.ImageField(upload_to='userprofile/', blank=True)
+       city = models.CharField(max_length=20, blank=True)
+       state = models.CharField(max_length=20, blank=True)
+       country = models.CharField(max_length=20, blank=True)
 
+       def __str__(self):
+           return self.user.first_name
+       
 
 
 class VerificationUser(models.Model):

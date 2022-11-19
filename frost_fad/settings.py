@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import environ
 import os
 from pathlib import Path
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(-6o!ukljdicr=t8uxeozrcaw3yx(f9jnz3dw9+b34c$ajpr=n'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 # AUTH_USER_MODEL = 'authentication.User'
 
@@ -43,9 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home','category','authentication',
-    'cart','store',
-    
+    'home',
+    'category',
+    'authentication',
+    'cart',
+    'store',
+    'orders',
+    'wishlist',
+    'sweetify',
+    'adminpanel',
 ]
 
 
@@ -73,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
+                'store.context_processors.filter_links',
             ],
         },
     },
@@ -82,6 +90,8 @@ WSGI_APPLICATION = 'frost_fad.wsgi.application'
 
 AUTH_USER_MODEL = 'authentication.Account'
 
+SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'
+
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -89,9 +99,9 @@ AUTH_USER_MODEL = 'authentication.Account'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'booksy',
-        'USER' : 'postgres',
-        'PASSWORD' : 'PoWq10!92387456',
+        'NAME': config('DATABASE_NAME'),
+        'USER' : config('DATABASE_USER'),
+        'PASSWORD' : config('DATABASE_PASSWORD'),
         'HOST' : 'localhost'
     }
 }
@@ -121,7 +131,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -149,11 +159,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 env = environ.Env()
 environ.Env.read_env()
 
-
+#TWILIO
 TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = env('TWILIO_AUTH_TOKEN')
 TWILIO_SERVICE_SID = env('TWILIO_SERVICE_SID')
 
+
+#RAZORPAY
+
+RAZOR_KEY_ID = config('RAZOR_KEY_ID')
+RAZOR_KEY_SECRET = config('RAZOR_KEY_SECRET')
 
 
 
@@ -163,8 +178,8 @@ MESSAGE_TAGS = {
 }
 
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'aipeep98@gmail.com'
-EMAIL_HOST_PASSWORD = 'imalklvnywwxlrgv'
-EMAIL_USE_TLS = True
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)

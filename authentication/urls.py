@@ -14,12 +14,19 @@ urlpatterns = [
     path('activate_email/<uidb64>/<token>', views.activate_email, name='activate_email'),
     path('signin/phone_number_page', views.phone_number_page, name='phone_number_page'),
 
-    #dashboard
-    path('dashboard/', views.dashboard, name="dashboard"),
 
     path('forgotpassword/', views.forgot_password, name="forgot_password"),
     path('reset_password_validate/<uidb64>/<token>', views.reset_password_validate, name="reset_password_validate"),
     path('reset_password/', views.reset_password, name="reset_password"),
+
+
+    
+    #dashboard
+    path('dashboard/', views.dashboard, name="dashboard"),
+    path('my_orders/', views.my_orders, name="my_orders"),
+    path('edit_profile/', views.edit_profile, name="edit_profile"),
+    path('change_password/', views.change_password, name="change_password"),
+    path('order_detail/<int:order_number>', views.order_detail, name="order_detail"),
 
     
     
