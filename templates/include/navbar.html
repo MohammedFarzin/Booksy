@@ -45,14 +45,14 @@
 					
 					<div class="wrap-icon-header flex-w flex-r-m h-full">
 						<!-- Example single danger button -->
-						{% if request.user.is_superuser  %}
+						{% if request.user.is_superadmin %}  
 
 						<div class="btn-group">
 							<button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 								Admin
 							</button>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+								<li><a class="dropdown-item" href="{% url 'adminpanel' %}">Dashboard</a></li>
 								<li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
 								<li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
 								<li><a class="dropdown-item" href="{% url 'signout' %}">logout</a></li>
@@ -60,8 +60,8 @@
 								{% comment %} <li><a class="dropdown-item" href="#">Separated link</a></li> {% endcomment %}
 							</ul>
 							</div>
-						{% endif %}
-						{% if user.is_authenticated %}
+						
+						{% elif user.is_authenticated %}
 							
 						
 								<div class="btn-group">

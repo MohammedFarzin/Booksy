@@ -9,6 +9,7 @@ from authentication.models import Account
 class Author(models.Model):
     name = models.CharField(max_length=130)
     slug = AutoSlugField(populate_from = 'name', unique=True, null=True, default=None)
+    is_active = models.BooleanField(default=True)
 
 
     def __str__(self):

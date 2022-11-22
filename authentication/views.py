@@ -285,6 +285,7 @@ def dashboard(request):
 
 
 def my_orders(request):
+    
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
 
     context = {
@@ -358,3 +359,18 @@ def order_detail(request, order_number):
         'subtotal' : subtotal
     }
     return render(request, 'authentication/order_detail.html',  context)
+
+
+
+
+def cancel_order_user(request, order_number):
+    try:
+        order = Order.objects.get(order_number=order_number)
+        order.status = 'Cancelled'
+        order.save()
+
+        return redirect('my_orders')
+        
+    except Exception as e:
+        raise e
+
