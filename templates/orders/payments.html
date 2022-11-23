@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block script %}
+.text-font{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-weight: 700;
+    letter-spacing: .156rem;
+    font-size: 1.125rem;
+    }
+    .text-price{
+    padding: 0 .625rem;
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 700;
+    line-height: .813rem;
+    letter-spacing: 1.6px;
+    }
+    .text-descriptions{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 400;
+    line-height: 1.125rem;
+    margin: .313rem 0 .938rem;
+    padding: 0 .625rem;
+    }
+    .button-color{
+    color: #4e4e4e ;
+    border-color: #4e4e4e ;
+    }
+    .button-order{
+    font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
+    font-style: normal;
+    font-size: .75rem;
+    font-weight: 700;
+    background-color: hsl(90, 40%, 50%);
+    color: white;
+    }
+{% endblock %}
+
+
+{% block content %}
+{% include 'include/navbarwhite.html' %}
+
+<div class="container my-5 py-5">
+
+    <!--Section: Design Block-->
+    <section>
+  
+      <div class="row">
+        <div class="col-md-8">
+         
+          <div class="card mb-4 accordion" id="accordionExample">
+            <div class="card body accordion-item">
+              {% comment %} <h2 class="accordion-header" id="headingOne">
+                <div class="accordion-button collapsed text-uppercase text-font h4" type="button"
+                  data-mdb-toggle="collapse" data-mdb-target="#collapseOne" aria-expanded="false"
+                  aria-controls="collapseOne">
+                  Promo/Student Code or Vouchers
+                </div>
+              </h2> {% endcomment %}
+              {% comment %} <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                data-mdb-parent="#accordionExample">
+                <div class="accordion-body">
+                  <div class="form-outline d-flex">
+                    <input type="text" id="form1" class="form-control" />
+                    <label class="form-label" for="form1">Enter code</label>
+                  </div>
+                </div>
+              </div> {% endcomment %}
+  
+  
+  
+            </div>
+          </div>
+  
+          <div class="card mb-4">
+            
+          </div>
+        </div>
+        
+  
+        <div class="col-md-8 mb-4">
+          <div class="card mb-4">
+            <div class="card-3header py-3">
+              <h5 class="mb-0 text-font text-uppercase">Delivery address</h5>
+            </div>
+            <div class="card-body">
+              <form method="POST" id="myform">
+                {% csrf_token %}
+                <div class="row mb-4 ">
+                  <div class="col">
+                        <input type="hidden" class="order_number" order_number="{{order.order_number}}">
+                        <div class="card">
+                           
+                            <h5 class="card-header">{{order.full_name}}</h5>
+                            <div class="card-body">
+                              <h6 class="card-title">{{order.address}}</h6>
+                              <p class="card-text mb-0">{{order.city}}, {{order.state}}</p>
+						    <p class="card-text mb-0">{{order.country}}</p>
+						    <p class="card-text mb-0">{{order.email}}</p>
+						    <p class="card-text mb-0">{{order.phone}}</p>
+                            {% if order.order_note %}
+						    <b>Order Note: </b> {{order.order_note}}
+						    {% endif %}
+                            </div>
+                          </div>
+                
+                  </div>
+                  <div class="col">
+                    <div class="card">
+                        <h5 class="card-header">Payment Method</h5>
+                        <div class="card-body">
+                          <h5 class="card-title">Razorpay</h5>
+                          <p class="card-text">Payment using Razorpay is available</p>
+                          <h5 class="card-title">Cash On Delivery</h5>
+                          <p class="card-text">Payment using COD is available</p>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <aside class="col">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <dl class="dlist-align">
+                                    <dt>Total price:</dt>
+                                    <dd class="text-right">₹ {{total}}</dd>
+                                </dl>
+                                <dl class="dlist-align">
+                                    <dt>Tax:</dt>
+                                    <dd class="text-right"> ₹ {{tax}}</dd>
+                                </dl>
+                                <dl class="dlist-align">
+                                    <dt>Grand Total:</dt>
+                                    <dd class="text-right text-dark b"><strong>₹ {{grand_total}}</strong></dd>
+                                </dl>
+                                <hr>
+                                <p class="text-center mb-3">
+                                    <img src="{% static './images/misc/payments.png' %}" height="26">
+                                </p>
+        
+        
+                                <div class="d-flex justify-content-end ">
+                                  {% comment %} <button class="btn btn-dark mt-3 me-2 px-5 fw-bold " type="submit" id="rzp_button1">COD</button> {% endcomment %}
+                                    <!-- PayPal Button Will Load -->
+                                    <button class="btn btn-dark mt-3 px-5 fw-bold payWithRazorpay me-3" type="button" id="rzp_button1">Razorpay</button>
+                                    <button class="btn btn-dark mt-3 px-5 fw-bold cod" type="button" id="rzp_button1">COD</button>
+                                </div>
+        
+                            </div> <!-- card-body.// -->
+                        </div> <!-- card.// -->
+                        
+                    </aside>
+                </div>
+                        
+
+                <!-- Number input -->
+                
+            
+            </div>
+  
+          </div>
+          
+  
+        </div>
+  
+        <div class="col-md-4 mb-4 position-static">
+            <div class="card mb-4">
+              <div class="card-header py-3">
+                <h5 class="mb-0 text-font">{{ cart_count }} items <span class="float-end mt-1"
+                    style="font-size: 13px ;"></span></h5>
+              </div>
+              
+              <div class="card-body">
+                
+                <div class="row">
+                  {% for cart_item in cart_items %}
+                  <div class="col-md-4 mb-2">
+                    <img src="{{ cart_item.product.images.url }}"
+                      class="rounded-3" style="width: 100px;" alt="{{ cart_item.product.product_name }}" />
+                  </div>
+                  <div class="col-md-6 ms-3">
+                    <span class="mb-0 text-price">₹{{ cart_item.product.price }}</span>
+                    <p class="mb-0 text-descriptions fw-bold">{{ cart_item.product.product_name }}</p>
+                    <span class="text-descriptions ">
+                      {% if cart_item.variations.all %}
+                      {% for item in cart_item.variations.all %}
+                        {{ item.variation_values }}
+                        <input type="hidden" class="variation_values" >
+
+                      {% endfor %}
+                      {% endif %}
+                    </span> 
+                      {% comment %} <span class="text-descriptions fw-bold">UK 8</span> {% endcomment %}
+                    <p class="text-descriptions mt-0">Qty:<span class="text-descriptions fw-bold">{{ cart_item.quantity }}</span>
+                    </p>
+                    
+                  </div>
+                  {% endfor %}                  
+                </div>
+                
+                <div class="card-footer mt-4">
+                  <ul class="list-group list-group-flush">
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0 text-muted">
+                      Subtotal
+                      <span>₹{{total}}</span>
+                    </li>
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0 text-muted">
+                      tax
+                      <span>₹{{tax}}</span>
+                    </li>
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center px-0 fw-bold text-uppercase">
+                      Total to pay
+                      <input type="hidden" class="grand_total" grand-total="{{grand_total}}">
+                      <span>₹{{grand_total}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </form>
+                
+    
+              </div>
+              
+            </div>
+          </div>
+  
+  
+  
+  
+      </div>
+  
+    </section>
+    <!--Section: Design Block-->
+  
+  </div>
+
+  {% endblock %}
+
+
+  {% block payment-gateway %}
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+  
+
+  
+
+  
+  {% comment %} document.getElementById('rzp-button1').onclick = function(e){
+    console.log("button click");
+      rzp1.open();
+      e.preventDefault();
+  } {% endcomment %}
+  </script>
+  {% comment %} sweetalert {% endcomment %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  {% endblock payment-gateway %}
