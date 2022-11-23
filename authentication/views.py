@@ -295,11 +295,17 @@ def my_orders(request):
 
 
 def edit_profile(request):
-    user_profile = get_object_or_404(UserProfile, user=request.user)
+    if UserProfile.objects.filter(user=request.user):
+        userprofile = get_object_or_404(UserProfile, user=request.user)
+        print("yes")
+    else:
+        userprofile = UserProfile.objects.create(user=request.user)
+        print("no")
+
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
         user_profile_form = UserProfileForm(
-            request.POST, request.FILES, instance=user_profile)
+            request.POST, request.FILES, instance=userprofile)
         if user_form.is_valid() and user_profile_form.is_valid():
             user_form.save()
             user_profile_form.save()
@@ -307,11 +313,11 @@ def edit_profile(request):
             return redirect('edit_profile')
     else:
         user_form = UserForm(instance=request.user)
-        user_profile_form = UserProfileForm(instance=user_profile)
+        user_profile_form = UserProfileForm(instance=userprofile)
     context = {
         'user_form': user_form,
         'profile_form': user_profile_form,
-        'userprofile': user_profile
+        'userprofile': userprofile
     }
 
     return render(request, 'authentication/edit_profile.html', context)
