@@ -27,8 +27,7 @@ def adminpanel(request):
         product_count = Product.objects.filter().count()
         variation_count = Variation.objects.filter().count()
         order_count = OrderProduct.objects.filter(ordered=True).count()
-        admin_order_count = Order.objects.filter(
-            user__is_superadmin=True).count()
+        admin_order_count = Order.objects.filter(user__is_superadmin=True).count()
 
         context = {
             'user_count': user_count,
