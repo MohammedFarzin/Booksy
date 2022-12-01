@@ -15,6 +15,7 @@ urlpatterns = [
     path('admin_orders/', views.admin_order, name="admin_orders"),
     path('review_management/', views.review_management, name="review_management"),
     path('admin_change_password/', views.admin_change_password, name='admin_change_password'),
+    path('coupon_management/', views.coupon_management, name="coupon_management"),
     
 
     
@@ -57,5 +58,10 @@ urlpatterns = [
 
     path('review_block/<int:review_id>/', views.review_block, name="review_block"),
     path('review_unblock/<int:review_id>/', views.review_unblock, name="review_unblock"),
+
+    #coupon_management
+    path('add_coupon', views.add_coupon, name="add_coupon"),
+    path('update_coupon/<int:coupon_id>/', views.update_coupon, name="update_coupon"),
+    path('delete_coupon/<int:coupon_id>/', views.delete_coupon, name="delete_coupon"),
 
 ]

@@ -10,6 +10,7 @@
         <a class="list-group-item {% if '/order_management/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'order_management' %}"> Order Management </a>
         <a class="list-group-item {% if '/admin_orders/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'admin_orders' %}"> My Orders </a>
         <a class="list-group-item {% if '/review_management/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'review_management' %}"> Review Management </a>
+        <a class="list-group-item {% if '/coupon_management/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'coupon_management' %}"> Coupon Management </a>
         <a class="list-group-item {% if '/admin_change_password/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-3 " href="{% url 'admin_change_password' %}"> Change Password </a>
         
     </ul>
@@ -36,6 +37,7 @@
             <a class="dropdown-item {% if '/order_management/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'order_management' %}"> Order Management </a>
             <a class="dropdown-item {% if '/admin_orders/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'admin_orders' %}"> My Orders </a>
             <a class="dropdown-item {% if '/review_management/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'review_management' %}"> Review Management </a>
+            <a class="dropdown-item {% if '/coupon_management/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-1 " href="{% url 'coupon_management' %}"> Coupon Management </a>
             <a class="dropdown-item {% if '/admin_change_password/' in request.path %} bg-light text-dark {% else %} bg-dark text-white {% endif %} card  mb-3 " href="{% url 'admin_change_password' %}"> Change Password </a>
             <a class="btn btn-danger btn-block  card  mb-1" href="{% url 'signout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log out</span> </a> 
         </div>

@@ -12,7 +12,7 @@ from category.models import Category
 # Store
 from store.models import Product, Variation, Author, ReviewRating
 # Order
-from orders.models import Order, OrderProduct
+from orders.models import Order, OrderProduct, Coupon
 # Forms
 from .forms import ProductForm, VariationForm, AuthorForm
 
@@ -20,7 +20,7 @@ from .forms import ProductForm, VariationForm, AuthorForm
 
 # ADMIN DASHBOARD
 @login_required(login_url='signin')
-@user_passes_test(lambda u: u.is_superuser, login_url='home')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def adminpanel(request):
     if request.user.is_superadmin:
 
@@ -47,7 +47,8 @@ def adminpanel(request):
 
 # ADMIN USER MANAGEMENT
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def user_management(request):
     if 'key' in request.GET:
         key = request.GET['key']
@@ -68,6 +69,8 @@ def user_management(request):
     return render(request, 'admin_panel/user_management.html', context)
 
 
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def user_ban(request, user_id):
     user = Account.object.get(id=user_id)
     user.is_active = False
@@ -75,6 +78,9 @@ def user_ban(request, user_id):
     return redirect('user_management')
 
 
+
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def user_unban(request, user_id):
     user = Account.object.get(id=user_id)
     user.is_active = True
@@ -83,7 +89,8 @@ def user_unban(request, user_id):
 
 
 # ADMIN CATEGORY MANAGEMENT
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def category_management(request):
     if request.method == 'POST':
         key = request.POST['keyword']
@@ -101,6 +108,9 @@ def category_management(request):
     return render(request, 'admin_panel/category_management.html', context)
 
 
+
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def add_category(request):
     if request.method == 'POST':
         try:
@@ -122,6 +132,9 @@ def add_category(request):
     return render(request, 'admin_panel/add_category.html')
 
 
+
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def update_category(request, category_id):
     try:
         categories = Category.objects.get(id=category_id)
@@ -136,7 +149,7 @@ def update_category(request, category_id):
             categories.description = category_description
 
             categories.save()
-            return redirect('category_management')\
+            return redirect('category_management')
 
         context = {
             'category': categories,
@@ -147,6 +160,10 @@ def update_category(request, category_id):
     return render(request, 'admin_panel/update_category.html', context)
 
 
+
+
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def delete_category(request, category_id):
     categories = Category.objects.get(id=category_id)
     categories.delete()
@@ -156,6 +173,8 @@ def delete_category(request, category_id):
 
 # ADMIN PRODUCT MANAGEMENT
 
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def product_management(request):
     if request.method == 'POST':
         key = request.POST['key']
@@ -174,6 +193,8 @@ def product_management(request):
     return render(request, 'admin_panel/product_management.html', context)
 
 
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def edit_product(request, product_id):
     product = Product.objects.get(id=product_id)
     form = ProductForm(instance=product)
@@ -195,7 +216,8 @@ def edit_product(request, product_id):
     }
     return render(request, 'admin_panel/edit_product.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def add_product(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
@@ -209,14 +231,16 @@ def add_product(request):
         }
         return render(request, 'admin_panel/add_product.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def delete_product(request, product_id):
     product = Product.objects.get(id=product_id)
     product.delete()
     return redirect('product_management')
 # ADMIN ORDER MANAGEMENT
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def order_management(request):
     if request.method == 'POST':
         key = request.POST['key']
@@ -233,7 +257,8 @@ def order_management(request):
     }
     return render(request, 'admin_panel/order_management.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def manager_cancel_order(request, order_number):
     order = Order.objects.get(order_number=order_number)
     order.status = 'Cancelled'
@@ -241,7 +266,8 @@ def manager_cancel_order(request, order_number):
 
     return redirect('order_management')
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def accept_order(request, order_number):
     order = Order.objects.get(order_number=order_number)
     order.status = 'Shipped'
@@ -249,7 +275,8 @@ def accept_order(request, order_number):
 
     return redirect('order_management')
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def complete_order(request, order_number):
     order = Order.objects.get(order_number=order_number)
     order.status = 'Delivered'
@@ -257,7 +284,8 @@ def complete_order(request, order_number):
 
     return redirect('order_management')
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def cancel_order(request, order_number):
     order = Order.objects.get(order_number=order_number)
     order.status = 'Cancelled'
@@ -267,7 +295,8 @@ def cancel_order(request, order_number):
 
 
 # ADMIN VARIATION MANAGEMENT
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def variation_management(request):
     if request.method == 'POST':
         keyword = request.POST['keyword']
@@ -286,7 +315,8 @@ def variation_management(request):
     }
     return render(request, 'admin_panel/variation_management.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def add_variation(request):
 
     if request.method == 'POST':
@@ -303,7 +333,8 @@ def add_variation(request):
     }
     return render(request, 'admin_panel/add_variation.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def update_variation(request, variation_id):
     variation = Variation.objects.get(id=variation_id)
 
@@ -322,7 +353,8 @@ def update_variation(request, variation_id):
     }
     return render(request, 'admin_panel/update_variation.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def delete_variation(request, variation_id):
     variation = Variation.objects.get(id=variation_id)
     variation.delete()
@@ -330,7 +362,8 @@ def delete_variation(request, variation_id):
 
 
 # ADMIN AUTHOR MANGEMENT
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def author_management(request):
     if request.method == 'POST':
         keyword = request.POST['keyword']
@@ -348,7 +381,8 @@ def author_management(request):
     }
     return render(request, 'admin_panel/author_management.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def add_author(request):
     if request.method == 'POST':
         form = AuthorForm(request.POST)
@@ -363,7 +397,8 @@ def add_author(request):
     }
     return render(request, 'admin_panel/add_author.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def update_author(request, author_id):
     author = Author.objects.get(id=author_id)
 
@@ -382,7 +417,8 @@ def update_author(request, author_id):
     }
     return render(request, 'admin_panel/update_author.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def delete_author(request, author_id):
     author = Author.objects.get(id=author_id)
     author.delete()
@@ -390,7 +426,8 @@ def delete_author(request, author_id):
 
 # ADMIN ORDERS
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def admin_order(request):
     current_user = request.user
     try:
@@ -412,7 +449,8 @@ def admin_order(request):
     }
     return render(request, 'admin_panel/admin_order.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def admin_change_password(request):
     if request.method == 'POST':
         current_user = request.user
@@ -439,8 +477,8 @@ def admin_change_password(request):
 
 # ADMIN REVIEW MANAGEMENT
 
-# @never_cache
-# @login_required(login_url='signin')
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def review_management(request):
     if request.method == 'POST':
         key = request.POST['key']
@@ -458,7 +496,8 @@ def review_management(request):
     }
     return render(request, 'admin_panel/review_management.html', context)
 
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def review_block(request, review_id):
   print("hai")
   review = ReviewRating.objects.get(id=review_id)
@@ -466,8 +505,82 @@ def review_block(request, review_id):
   review.save()
   return redirect('review_management')
 
+
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
 def review_unblock(request, review_id):
   review = ReviewRating.objects.get(id=review_id)
   review.status= True
   review.save()
   return redirect('review_management')
+
+
+
+#COUPON MANAGEMENT
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_admin, login_url='home')
+def coupon_management(request):
+    if request.method == 'POST':
+        key = request.POST['key']
+        coupon = Coupon.objects.filter(Q(coupon_code__icontains=key))
+    else:
+        coupon = Coupon.objects.all()
+
+    context = {
+        'coupons': coupon
+    }
+
+    return render(request, 'admin_panel/coupon_management.html', context)
+
+
+def update_coupon(request, coupon_id):
+    try:
+        coupon = Coupon.objects.get(id=coupon_id)
+
+        if request.method == 'POST':
+            coupon_code = request.POST['coupon_code'] 
+            minimum_amount = request.POST['minimum_amount'] 
+            discount_price = request.POST['discount_price'] 
+            expiry_at = request.POST['expiry_at'] 
+
+            coupon.coupon_code = coupon_code
+            coupon.minimum_amount = minimum_amount
+            coupon.discount_price = discount_price
+            coupon.expiry_at = expiry_at
+
+            coupon.save()
+            return redirect('coupon_management')
+
+        context = {
+            'coupon': coupon
+        }
+    except Exception as e:
+        raise e
+    
+    return render(request, 'admin_panel/update_coupon.html', context)
+
+
+
+def delete_coupon(request, coupon_id):
+    coupon = Coupon.objects.filter(id=coupon_id)
+    coupon.delete()
+    return redirect('coupon_management')
+
+
+def add_coupon(request):
+    if request.method == "POST":
+        coupon_code = request.POST['coupon_code'] 
+        minimum_amount = request.POST['minimum_amount'] 
+        discount_price = request.POST['discount_price'] 
+        expiry_at = request.POST['expiry_at']
+
+        coupon = Coupon(
+            coupon_code=coupon_code,
+            minimum_amount=minimum_amount,
+            discount_price=discount_price,
+            expiry_at=expiry_at
+        )
+
+        coupon.save()
+        return redirect('coupon_management')
+    return render(request, 'admin_panel/add_coupon.html')
