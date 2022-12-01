@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block title %} Variation Management {% endblock title %}
 {% block content %}
 {% include 'include/navbarwhite.html' %}
 <!-- ========================= SECTION CONTENT ========================= -->
@@ -27,6 +27,7 @@
       {% include 'include/admin_dashboard_sidebar.html' %}
       
       <main class="col-md-9">
+        <div class="wrap-table-shopping-cart">
         <table class="table table-gray-light">
           <thead>
             <tr class="mb-4">
@@ -59,6 +60,7 @@
             {% endfor %}
           </tbody>
         </table>
+      </div>
         <!-- order-group.// -->
         <div class="container">
           <nav class="mt-4" aria-label="Page navigation sample">

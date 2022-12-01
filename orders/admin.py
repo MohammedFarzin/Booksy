@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Payment,Order,OrderProduct
+from .models import Payment,Order,OrderProduct,Coupon
 
 # Register your models here.
 
@@ -15,7 +15,10 @@ class OrderAdmin(admin.ModelAdmin):
     list_per_page = 20
     inlines = [OrderProductInline]
 
+class CouponAdmin(admin.ModelAdmin):
+    list_display = ['coupon_code', 'minimum_amount', 'discount_price', 'created_at', 'modify_date', 'expiry_at']
 
 admin.site.register(Payment)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderProduct)
+admin.site.register(Coupon, CouponAdmin)

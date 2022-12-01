@@ -1,4 +1,5 @@
 {% extends 'base.html' %} 
+{% block title %} Update Category {% endblock title %}
 {% block content %}
 {% include 'include/navbarwhite.html' %}
 
@@ -12,12 +13,12 @@
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="category_name">Category Name</label>
-              <input type="text" class="form-control" id="category_name" name="category_name" value="{{ category.name }}" required />
+              <input type="text" class="form-control" id="category_name" name="category_name" value="{{ category.category_name }}" required />
             </div>
             <div class="form-group col-md-6">
               <label for="category_slug">Category Slug</label>
               <input type="text" class="form-control" id="category_slug" name="category_slug" aria-describedby="category_slug" value="{{ category.slug }}" required />
-              <small id="category_slug" class="form-text text-muted">Format :- name: T Shirt, slug: t-shirt</small>
+              
             </div>
           </div>
           <div class="form-group">

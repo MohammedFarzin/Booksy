@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block title %} Payment {% endblock title %}
 {% block script %}
 .text-font{
     font-family: futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;
@@ -51,6 +51,31 @@
   
       <div class="row">
         <div class="col-md-8">
+
+          <div class="card mb-4 accordion" id="accordionExample">
+            <div class="card body accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <div class="accordion-button collapsed text-uppercase text-font h4" type="button"
+                  data-mdb-toggle="collapse" data-mdb-target="#collapseOne" aria-expanded="false"
+                  aria-controls="collapseOne">
+                  Promo/Student Code or Vouchers
+                </div>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                data-mdb-parent="#accordionExample">
+                <div class="accordion-body">
+                  <div class="form-outline d-flex">
+                    <input type="text" id="form1" class="form-control" name="coupon_code"/>
+                    <label class="form-label" for="form1">Enter code</label>
+                    <button class="btn btn-dark" type="button" id="apply_coupon">Apply</button>
+                  </div>
+                </div>
+              </div>
+  
+  
+  
+            </div>
+          </div>
          
           <div class="card mb-4 accordion" id="accordionExample">
             <div class="card body accordion-item">
@@ -126,30 +151,52 @@
                     <aside class="col">
 
                         <div class="card">
-                            <div class="card-body">
+                            <div class="card-body" id="payment_render">
                                 <dl class="dlist-align">
-                                    <dt>Total price:</dt>
+                                    <dt>Sub price:</dt>
                                     <dd class="text-right">₹ {{total}}</dd>
                                 </dl>
                                 <dl class="dlist-align">
                                     <dt>Tax:</dt>
                                     <dd class="text-right"> ₹ {{tax}}</dd>
                                 </dl>
+                               
                                 <dl class="dlist-align">
                                     <dt>Grand Total:</dt>
                                     <dd class="text-right text-dark b"><strong>₹ {{grand_total}}</strong></dd>
                                 </dl>
                                 <hr>
                                 <p class="text-center mb-3">
-                                    <img src="{% static './images/misc/payments.png' %}" height="26">
+                                  <div class="p-t-40">
+                                    <div class="flex-c-m flex-w p-b-18">
+                                        {% comment %} <a href="#" class="m-all-1">
+                                            <img src="{% static 'images/icons/icon-pay-01.png' %}" alt="ICON-PAY">
+                                        </a> {% endcomment %}
+                        
+                                        <a href="#" class="m-all-1">
+                                            <img src="{% static 'images/icons/icon-pay-02.png' %}" alt="ICON-PAY">
+                                        </a>
+                        
+                                        <a href="#" class="m-all-1">
+                                            <img src="{% static 'images/icons/icon-pay-03.png' %}" alt="ICON-PAY">
+                                        </a>
+                        
+                                        <a href="#" class="m-all-1">
+                                            <img src="{% static 'images/icons/icon-pay-04.png' %}" alt="ICON-PAY">
+                                        </a>
+                        
+                                        <a href="#" class="m-all-1">
+                                            <img src="{% static 'images/icons/icon-pay-05.png' %}" alt="ICON-PAY">
+                                        </a>
+                                    </div>
                                 </p>
         
         
                                 <div class="d-flex justify-content-end ">
                                   {% comment %} <button class="btn btn-dark mt-3 me-2 px-5 fw-bold " type="submit" id="rzp_button1">COD</button> {% endcomment %}
                                     <!-- PayPal Button Will Load -->
-                                    <button class="btn btn-dark mt-3 px-5 fw-bold payWithRazorpay me-3" type="button" id="rzp_button1">Razorpay</button>
-                                    <button class="btn btn-dark mt-3 px-5 fw-bold cod" type="button" id="rzp_button1">COD</button>
+                                    <button class="btn btn-warning btn-sm mt-3 px-4 fw-bold payWithRazorpay me-3" type="button" id="rzp_button1">Razorpay</button>
+                                    <button class="btn btn-warning mt-3 px-4 fw-bold cod" type="button" id="rzp_button1">COD</button>
                                 </div>
         
                             </div> <!-- card-body.// -->
@@ -204,26 +251,7 @@
                   {% endfor %}                  
                 </div>
                 
-                <div class="card-footer mt-4">
-                  <ul class="list-group list-group-flush">
-                    <li
-                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0 text-muted">
-                      Subtotal
-                      <span>₹{{total}}</span>
-                    </li>
-                    <li
-                      class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0 text-muted">
-                      tax
-                      <span>₹{{tax}}</span>
-                    </li>
-                    <li
-                      class="list-group-item d-flex justify-content-between align-items-center px-0 fw-bold text-uppercase">
-                      Total to pay
-                      <input type="hidden" class="grand_total" grand-total="{{grand_total}}">
-                      <span>₹{{grand_total}}</span>
-                    </li>
-                  </ul>
-                </div>
+               
               </form>
                 
     

@@ -1,4 +1,5 @@
 {% extends 'base.html' %} 
+{% block title %} Order Management {% endblock title %}
 {% block content %}
 {% include 'include/navbarwhite.html' %}
 
@@ -25,6 +26,7 @@
           </div>
         </form>
       </div>
+      <div class="wrap-table-shopping-cart">
         <table class="table table-gray-light">
           <thead>
             <tr>
@@ -70,6 +72,33 @@
             {% endfor %}
           </tbody>
         </table>
+        <div class="container">
+          <div class="row">
+            <aside class="col-md-3"></aside>
+            <main class="col-md-9">
+              <nav class="mt-4" aria-label="Page navigation sample">
+                {% if orders.has_other_pages %}
+                <ul class="pagination">
+                  {% if orders.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{ orders.previous_page_number }}">Previous</a></li>
+                  {% else %}
+                  <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                  {% endif %} {% for page_number in orders.paginator.page_range %} {% if orders.number == page_number %}
+                  <li class="page-item active"><a class="page-link" href="#">{{ page_number }}</a></li>
+                  {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                  {% endif %} {% endfor %} {% if orders.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ orders.next_page_number }}">Next</a></li>
+                  {% else %}
+                  <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                  {% endif %}
+                </ul>
+                {% endif %}
+              </nav>
+            </main>
+          </div>
+        </div>
+      </div>
         <!-- order-group.// -->
       </main>
     </div>

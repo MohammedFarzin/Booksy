@@ -44,7 +44,7 @@ def signup(request):
                 user = Account.object.create_user(
                     first_name=first_name, last_name=last_name, email=email, phone_number=phone_number, password=password)
                 user.save()
-
+                
                 # USER ACTIVATION
                 # verification_user = send_otp(phone_number, user)
                 current_site = get_current_site(request)
@@ -272,11 +272,12 @@ def reset_password(request):
 
 @login_required(login_url='signin')
 def dashboard(request):
-    orders = Order.objects.order_by(
-        '-created_at').filter(user_id=request.user.id, is_ordered=True)
+    orders = Order.objects.order_by('-created_at').filter(user_id=request.user.id, is_ordered=True)
     orders_count = orders.count()
-
-    userprofile = UserProfile.objects.get(user_id=request.user.id)
+    if UserProfile.objects.filter(user=request.user):
+        userprofile = get_object_or_404(UserProfile, user_id=request.user.id)
+    else:
+        userprofile = None
     context = {
         'orders_count': orders_count,
         'userprofile' : userprofile

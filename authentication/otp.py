@@ -52,12 +52,13 @@ def verify_otp(phone_number, otp):
         print('verification confirm')
         return True
     else:
+        message.error
         return False
 
 
 
 def otp_verify_code(request, phone_number, uid, verification_user):
-    # try:
+    try:
         if request.method == 'POST':
             otp = request.POST.get('otp')
 
@@ -79,9 +80,9 @@ def otp_verify_code(request, phone_number, uid, verification_user):
         
         return render(request, 'authentication/enterotp.html')
 
-    # except:
+    except:
 
-            # return HttpResponse('404 NOT FOUND ERROR')
+            return HttpResponse('404 NOT FOUND ERROR')
 
      
      

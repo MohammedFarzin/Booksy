@@ -9,29 +9,16 @@
                 </h4>
 
                 <ul>
+                    {% for category in links %}
                     <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Women
-                        </a>
-                    </li>
+                        <a href="{{ category.get_url }}" class="stext-107 cl7 hov-cl1 trans-04">
+                            {{category.category_name}}
 
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Men
                         </a>
                     </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Shoes
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Watches
-                        </a>
-                    </li>
+					{% endfor %}
+                    
+                    
                 </ul>
             </div>
 

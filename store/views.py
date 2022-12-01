@@ -42,6 +42,7 @@ def product(request, category_slug = None):
     
     context = {
         'products' : paged_products,
+        
         # 'total_data' : total_data,
     }
     return render(request, 'store/product.html', context)
@@ -63,7 +64,10 @@ def product_details(request, category_slug, product_slug):
         in_cart = CartItems.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
         if request.user.is_authenticated:
             wishlist = WishlistItems.objects.filter(product=single_product, user=request.user)
-            userprofile = UserProfile.objects.get(user_id=request.user.id)
+            if UserProfile.objects.filter(user_id=request.user.id):
+                userprofile = UserProfile.objects.get(user_id=request.user.id)
+            else:
+                userprofile = None
             
         
     except Exception as e:
@@ -87,6 +91,7 @@ def product_details(request, category_slug, product_slug):
         'userprofile' : userprofile,
         'orderproduct' : orderproduct,
         'reviews' : reviews,
+        'categories':categories,
     }
     return render(request, 'store/product_detail.html', context)
 

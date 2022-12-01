@@ -1,4 +1,5 @@
 {% extends 'base.html' %} 
+{% block title %} Review Management {% endblock title %}
 {% block content %}
 {% include 'include/navbarwhite.html' %}
 <!-- ========================= SECTION CONTENT ========================= -->
@@ -22,6 +23,7 @@
           </div>
         </form>
       </div>
+      <div class="wrap-table-shopping-cart">
         <table class="table bg-white">
           <thead>
             <tr>
@@ -60,6 +62,33 @@
             {% endfor %}
           </tbody>
         </table>
+        <div class="container">
+          <div class="row">
+            <aside class="col-md-3"></aside>
+            <main class="col-md-9">
+              <nav class="mt-4" aria-label="Page navigation sample">
+                {% if reviews.has_other_pages %}
+                <ul class="pagination">
+                  {% if reviews.has_previous %}
+                  <li class="page-item"><a class="page-link" href="?page={{ reviews.previous_page_number }}">Previous</a></li>
+                  {% else %}
+                  <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                  {% endif %} {% for page_number in reviews.paginator.page_range %} {% if reviews.number == page_number %}
+                  <li class="page-item active"><a class="page-link" href="#">{{ page_number }}</a></li>
+                  {% else %}
+                  <li class="page-item"><a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a></li>
+                  {% endif %} {% endfor %} {% if reviews.has_next %}
+                  <li class="page-item"><a class="page-link" href="?page={{ reviews.next_page_number }}">Next</a></li>
+                  {% else %}
+                  <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                  {% endif %}
+                </ul>
+                {% endif %}
+              </nav>
+            </main>
+          </div>
+        </div>
+      </div>
         <!-- order-group.// -->
       </main>
     </div>

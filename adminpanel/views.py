@@ -3,6 +3,8 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
+from django.contrib.auth.decorators import user_passes_test,login_required
+
 # authentication
 from authentication.models import Account
 # category
@@ -17,8 +19,8 @@ from .forms import ProductForm, VariationForm, AuthorForm
 # Create your views here.
 
 # ADMIN DASHBOARD
-
-
+@login_required(login_url='signin')
+@user_passes_test(lambda u: u.is_superuser, login_url='home')
 def adminpanel(request):
     if request.user.is_superadmin:
 
@@ -51,8 +53,7 @@ def user_management(request):
         key = request.GET['key']
         if key:
 
-            products = Account.objects.order_by(
-                '-id').filter(Q(first_name__icontains=key) | Q(email__icontains=key))
+            products = Account.objects.order_by('-id').filter(Q(first_name__icontains=key) | Q(email__icontains=key))
 
     else:
         users = Account.object.filter(is_superadmin=False).order_by('id')
@@ -84,10 +85,18 @@ def user_unban(request, user_id):
 # ADMIN CATEGORY MANAGEMENT
 
 def category_management(request):
-    categories = Category.objects.all().order_by('id')
+    if request.method == 'POST':
+        key = request.POST['keyword']
+        categories = Category.objects.filter(Q(category_name__startswith=key) | Q(slug__startswith=key)).order_by('id')
+    else:
+        categories = Category.objects.all().order_by('id')
+
+    paginator = Paginator(categories, 4)
+    page = request.GET.get('page')
+    paged_categories = paginator.get_page(page)
 
     context = {
-        'categories': categories
+        'categories': paged_categories
     }
     return render(request, 'admin_panel/category_management.html', context)
 
@@ -211,13 +220,16 @@ def delete_product(request, product_id):
 def order_management(request):
     if request.method == 'POST':
         key = request.POST['key']
-        orders = Order.objects.filter(Q(is_ordered=True), Q(order_number_startswith=key) | Q(
-            useremailstartswith=key) | Q(first_name_startswith=key)).order_by('id')
+        orders = Order.objects.filter(Q(is_ordered=True), Q(order_number__contains=key) | Q(user__email__contains=key) | Q(first_name__icontains=key)).order_by('id')
     else:
         orders = Order.objects.filter(is_ordered=True).order_by('id')
 
+    paginator = Paginator(orders, 4)
+    page = request.GET.get('page')
+    paged_orders = paginator.get_page(page)
+
     context = {
-        'orders': orders
+        'orders': paged_orders
     }
     return render(request, 'admin_panel/order_management.html', context)
 
@@ -265,7 +277,7 @@ def variation_management(request):
     else:
         variations = Variation.objects.all().order_by('id')
 
-    paginator = Paginator(variations, 10)
+    paginator = Paginator(variations, 4)
     page = request.GET.get('page')
     paged_variations = paginator.get_page(page)
 
@@ -327,7 +339,7 @@ def author_management(request):
     else:
         authors = Author.objects.all().order_by('id')
 
-    paginator = Paginator(authors, 10)
+    paginator = Paginator(authors, 4)
     page = request.GET.get('page')
     paged_authors = paginator.get_page(page)
 
@@ -362,7 +374,7 @@ def update_author(request, author_id):
             return redirect('author_management')
 
     else:
-        form = VariationForm(instance=author)
+        form = AuthorForm(instance=author)
 
     context = {
         'author': author,
@@ -381,16 +393,17 @@ def delete_author(request, author_id):
 
 def admin_order(request):
     current_user = request.user
+    try:
 
-    if request.method == 'POST':
-        keyword = request.POST['keyword']
-        orders = Order.objects.filter(Q(user=current_user), Q(is_ordered=True), Q(order_number_startswith=keyword) | Q(useremailstartswith=keyword) | Q(
-            first_namestartswith=keyword) | Q(last_namestartswith=keyword) | Q(phone_startswith=keyword)).order_by('-created_at')
+        if request.method == 'POST':
+            keyword = request.POST['keyword']
+            orders = Order.objects.filter(Q(user=current_user), Q(is_ordered=True), Q(order_number__contains=keyword) | Q(user__email__icontains=keyword) | Q(first_name__startswith=keyword) | Q(last_name__startswith=keyword) | Q(phone__startswith=keyword)).order_by('-created_at')
 
-    else:
-        orders = Order.objects.filter(
-            user=current_user, is_ordered=True).order_by('-created_at')
-
+        else:
+            orders = Order.objects.filter(
+                user=current_user, is_ordered=True).order_by('-created_at')
+    except Exception as e:
+        raise e
     paginator = Paginator(orders, 10)
     page = request.GET.get('page')
     paged_orders = paginator.get_page(page)
@@ -429,11 +442,21 @@ def admin_change_password(request):
 # @never_cache
 # @login_required(login_url='signin')
 def review_management(request):
-  reviews = ReviewRating.objects.all()
-  context = {
-    'reviews': reviews
-  }
-  return render(request, 'admin_panel/review_management.html', context)
+    if request.method == 'POST':
+        key = request.POST['key']
+        reviews = ReviewRating.objects.filter(Q(product__product_name__icontains=key), Q(status=True)).order_by('id')
+    else:
+        reviews = ReviewRating.objects.all()
+
+    paginator = Paginator(reviews, 4)
+    page = request.GET.get('page')
+    paged_reviews = paginator.get_page(page)
+
+    
+    context = {
+        'reviews': paged_reviews
+    }
+    return render(request, 'admin_panel/review_management.html', context)
 
 
 def review_block(request, review_id):

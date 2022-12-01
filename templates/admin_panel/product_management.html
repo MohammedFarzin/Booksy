@@ -1,4 +1,5 @@
 {% extends 'base.html' %} 
+{% block title %} Product Management {% endblock title %}
 {% block content %}
 {% include 'include/navbarwhite.html' %}
 
@@ -32,6 +33,7 @@
           
             <a href="{% url 'add_product' %}" class="btn btn-secondary mb-2  ">Add Product</a>
           </div> 
+        <div class="wrap-table-shopping-cart">
         <table class="table table-gray-light">
           <thead>
             <tr>
@@ -72,6 +74,8 @@
             {% endfor %}
           </tbody>
         </table>
+      </div>
+
         <!-- order-group.// -->
         <div class="container" >
           <nav class="mt-4" aria-label="Page navigation sample">
@@ -93,7 +97,6 @@
             </ul>
             {% endif %}
           </nav>
-        </div>
       </main>
     </div>
     <!-- row.// -->
