@@ -34,16 +34,18 @@
 				  <tbody>
 						{% for order in orders %}
 				    <tr>
+						
 				      <th scope="row"><a href="{% url 'order_detail' order.order_number %}">{{order.order_number}}</a></th>
-				      <td>{{order.full_name}}</td>
+					  <td>{{order.full_name}}</td>
 				      <td>{{order.phone}}</td>
-				      <td>${{order.order_total}}</td>
+				      <td>₹ {{order.order_total}}</td>
 					  <td>{{order.created_at}}</td>
 					  <td>{{order.status}}</td>
 					  <td>{% if order.status == 'Cancelled' %}
 						<button class="btn btn-info disabled">Cancelled</button>
 						{% else %}
 						<a href="{% url 'cancel_order_user' order.order_number %}" class="btn btn-danger">Cancel</a>
+					
 						{% endif %}
 					  </td>
 

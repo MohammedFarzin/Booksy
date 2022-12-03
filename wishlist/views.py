@@ -4,13 +4,13 @@ from django.core.exceptions import ObjectDoesNotExist
 from store.models import Product
 from wishlist.models import Variation
 from django.http import JsonResponse
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
 
-
+@login_required(login_url='signin')
 def wishlist(request):
     try:
         if request.user.is_authenticated:
@@ -25,7 +25,7 @@ def wishlist(request):
     }
     return render(request, 'wishlist/wishlist.html', context)
 
-
+@login_required(login_url='signin')
 def add_wishlist(request):
     
             
@@ -64,7 +64,7 @@ def add_wishlist(request):
 
     
 
-
+@login_required(login_url='signin')
 def remove_wishlist(request):
     if request.user.is_authenticated:
 
@@ -91,7 +91,7 @@ def remove_wishlist(request):
             except:
                 print('EXCEPT BLOCK')
 
-
+@login_required(login_url='signin')
 def remove_wishlist_item(request, product_id, wishlist_item_id):
     product=get_object_or_404(Product, id=product_id)
     try:

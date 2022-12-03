@@ -12,20 +12,22 @@ from django.template.loader import render_to_string
 import razorpay
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseBadRequest, JsonResponse
 
 # product
 
 from store.models import Product
+from authentication.models import UserProfile
 
 # Create your views here.
 
 # authorize razorpay client with API Keys.
 
-
+@login_required(login_url='signin')
 def razorpay_check(request):
-
     if request.method == "POST":
+        print('=-================asdfafafa====================dfafadfa=f=======================')
         payment_order = Payment()
         payment_order.user = request.user
         payment_order.payment_method = request.POST.get('payment_mode')
@@ -85,13 +87,15 @@ def razorpay_check(request):
 # POST request will be made by Razorpay
 # and it won't have the csrf token.
 
-
+@login_required(login_url='signin')
 def order_completed(request):
     order_number = request.GET.get('order_number')
     print(order_number)
 
     try:
         order = Order.objects.get(order_number=order_number)
+        order.status = 'Accepted'
+        order.save()
         ordered_products = OrderProduct.objects.filter(order_id=order.id)
         subtotal = 0
 
@@ -108,7 +112,7 @@ def order_completed(request):
     except (Payment.DoesNotExist, Order.DoesNotExist):
         return redirect('home')
 
-
+@login_required(login_url='signin')
 def place_order(request, total=0, quantity=0):
     current_user = request.user
 
@@ -149,6 +153,15 @@ def place_order(request, total=0, quantity=0):
             data.tax = tax
             data.ip = request.META.get('REMOTE_ADDR')
             data.save()
+            print('datasaved')
+            if not UserProfile.objects.filter(user=request.user):
+                print("if not case")
+                userprofile = UserProfile.objects.create(user=request.user)
+                userprofile.address = form.cleaned_data['address']
+                userprofile.city = form.cleaned_data['city']
+                userprofile.state = form.cleaned_data['state']
+                userprofile.country = form.cleaned_data['country']
+                userprofile.save()
 
             # generate order_id
             yr = int(datetime.date.today().strftime('%Y'))
@@ -160,8 +173,7 @@ def place_order(request, total=0, quantity=0):
             data.order_number = order_number
             data.save()
 
-            order = Order.objects.get(
-                user=current_user, is_ordered=False, order_number=order_number)
+            order = Order.objects.get(user=current_user, is_ordered=False, order_number=order_number)
 
             # client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
             # data = {"amount": int(grand_total) * 100, "currency": "INR", "receipt": "order_rcptid_12"}
@@ -191,7 +203,7 @@ def place_order(request, total=0, quantity=0):
 
             return render(request, 'orders/payments.html', context)
 
-
+@login_required(login_url='signin')
 def apply_coupon(request):
     coupon_code = request.GET['coupon_code']
     if Coupon.objects.filter(coupon_code__exact=coupon_code, is_active=True).exists():

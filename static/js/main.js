@@ -296,7 +296,8 @@
                 prod_id:id
             },
             success:function(data) {
-                alert(data.message)
+                swal.fire("Congratulations ! ", data.message, "success")
+                location.reload();
                 
             }
         })
@@ -313,11 +314,15 @@
                 prod_id:id
             },
             success:function(data) {
-                alert("wish list removed")
+                swal.fire("Congratulations ! ", "Wishlist removed ", "success")
+                location.reload();
                 
             }
         })
         
+        setTimeout(function(){
+            window.location.reload();
+         }, 10000);
     });
 
 

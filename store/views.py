@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 #pagination
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 #Models
@@ -64,10 +65,10 @@ def product_details(request, category_slug, product_slug):
         in_cart = CartItems.objects.filter(cart__cart_id=_cart_id(request), product=single_product).exists()
         if request.user.is_authenticated:
             wishlist = WishlistItems.objects.filter(product=single_product, user=request.user)
-            if UserProfile.objects.filter(user_id=request.user.id):
-                userprofile = UserProfile.objects.get(user_id=request.user.id)
-            else:
-                userprofile = None
+            # if UserProfile.objects.filter(user_id=request.user.id):
+            #     userprofile = UserProfile.objects.get(user_id=request.user.id)
+            # else:
+            #     userprofile = None
             
         
     except Exception as e:
@@ -88,7 +89,7 @@ def product_details(request, category_slug, product_slug):
         'products' : products,
         'in_cart' : in_cart,
         'wishlist' : wishlist,
-        'userprofile' : userprofile,
+        # 'userprofile' : userprofile,
         'orderproduct' : orderproduct,
         'reviews' : reviews,
         'categories':categories,
@@ -110,7 +111,7 @@ def search(request):
 
 
 
-
+@login_required(login_url='signin')
 def submit_review(request, product_id):
     url = request.META.get('HTTP_REFERER')
     if request.method == "POST":

@@ -71,7 +71,8 @@ def signup(request):
                 # return redirect('otp_verify_code', phone_number=phone_number,uid=user.pk,verification_user=verification_user)
 
             else:
-                messages.warning(request, 'Form not submitted try again....')
+                print(form.errors)
+                messages.warning(request, form.errors)
                 return redirect('signup')
         else:
             form = RegistrationForm()
@@ -284,7 +285,7 @@ def dashboard(request):
     }
     return render(request, 'authentication/dashboard.html', context)
 
-
+@login_required(login_url='signin')
 def my_orders(request):
     
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
@@ -295,6 +296,7 @@ def my_orders(request):
     return render(request, 'authentication/my_orders.html', context)
 
 
+@login_required(login_url='signin')
 def edit_profile(request):
     if UserProfile.objects.filter(user=request.user):
         userprofile = get_object_or_404(UserProfile, user=request.user)
@@ -325,6 +327,7 @@ def edit_profile(request):
 
 
 
+@login_required(login_url='signin')
 def change_password(request):
     if request.method == 'POST':
         current_password = request.POST['current_password']
@@ -352,9 +355,10 @@ def change_password(request):
 
 
 
-def order_detail(request, order_number):
-    order_detail = OrderProduct.objects.filter(order__order_number=order_number)
-    order = Order.objects.get(order_number=order_number)
+@login_required(login_url='signin')
+def order_detail(request, order_id):
+    order_detail = OrderProduct.objects.filter(order__order_number=order_id)
+    order = Order.objects.get(order_number=order_id)
 
     subtotal = 0
 
@@ -369,7 +373,7 @@ def order_detail(request, order_number):
 
 
 
-
+@login_required(login_url='signin')
 def cancel_order_user(request, order_number):
     try:
         order = Order.objects.get(order_number=order_number)

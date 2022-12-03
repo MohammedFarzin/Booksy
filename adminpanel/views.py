@@ -52,12 +52,12 @@ def adminpanel(request):
 def user_management(request):
     if 'key' in request.GET:
         key = request.GET['key']
-        if key:
-
-            products = Account.objects.order_by('-id').filter(Q(first_name__icontains=key) | Q(email__icontains=key))
-
+        print(key)
+        users = Account.object.order_by('-id').filter(Q(first_name__icontains=key) | Q(email__icontains=key))
+        print('if function')
     else:
         users = Account.object.filter(is_superadmin=False).order_by('id')
+        print(users)
 
     paginator = Paginator(users, 4)
     page = request.GET.get('page')
@@ -300,8 +300,7 @@ def cancel_order(request, order_number):
 def variation_management(request):
     if request.method == 'POST':
         keyword = request.POST['keyword']
-        variations = Variation.objects.filter(Q(product_product_namestartswith=keyword) | Q(
-            variation_categorystartswith=keyword) | Q(variation_values_startswith=keyword)).order_by('id')
+        variations = Variation.objects.filter(Q(product__product_name__icontains=keyword) | Q(variation_category__icontains=keyword) | Q(variation_values__icontains=keyword)).order_by('id')
 
     else:
         variations = Variation.objects.all().order_by('id')

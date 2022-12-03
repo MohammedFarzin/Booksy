@@ -32,14 +32,14 @@ $(document).ready(function () {
                    
             var options = {
                 "key": "rzp_test_D90RdJ2N6Jyq07", // Enter the Key ID generated from the Dashboard
-                "amount": 5 * 100 ,//response.total_price * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "amount": 1 * 100 ,//response.total_price * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": "INR",
                 "name": "Booksy",
                 "description": "Thank you for buying from us",
                 "image": "https://example.com/your_logo",
                 // "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler": function (responseb){
-                    alert(responseb.razorpay_payment_id);
+                    // alert(responseb.razorpay_payment_id);
                     // alert(response.razorpay_order_id);
                     // alert(response.razorpay_signature)
                     data = {

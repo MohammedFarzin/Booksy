@@ -163,7 +163,7 @@
                                
                                 <dl class="dlist-align">
                                     <dt>Grand Total:</dt>
-                                    <dd class="text-right text-dark b"><strong>₹ {{grand_total}}</strong></dd>
+                                    <dd class="text-right text-dark b grand_total" grand-total="{{grand_total}}"><strong>₹ {{grand_total}}</strong></dd>
                                 </dl>
                                 <hr>
                                 <p class="text-center mb-3">
@@ -192,17 +192,17 @@
                                 </p>
         
         
-                                <div class="d-flex justify-content-end ">
-                                  {% comment %} <button class="btn btn-dark mt-3 me-2 px-5 fw-bold " type="submit" id="rzp_button1">COD</button> {% endcomment %}
-                                    <!-- PayPal Button Will Load -->
-                                    <button class="btn btn-warning btn-sm mt-3 px-4 fw-bold payWithRazorpay me-3" type="button" id="rzp_button1">Razorpay</button>
-                                    <button class="btn btn-warning mt-3 px-4 fw-bold cod" type="button" id="rzp_button1">COD</button>
-                                </div>
-        
-                            </div> <!-- card-body.// -->
-                        </div> <!-- card.// -->
-                        
+                                
+                              </div> <!-- card-body.// -->
+                            </div> <!-- card.// -->
+                            
                     </aside>
+                            <div class="d-flex justify-content-end ">
+                              {% comment %} <button class="btn btn-dark mt-3 me-2 px-5 fw-bold " type="submit" id="rzp_button1">COD</button> {% endcomment %}
+                                <!-- PayPal Button Will Load -->
+                                <button class="btn btn-warning btn-sm mt-3 px-4 fw-bold payWithRazorpay me-3" type="button" id="rzp_button1">Razorpay</button>
+                                <button class="btn btn-warning mt-3 px-4 fw-bold cod" type="button" id="rzp_button1">COD</button>
+                            </div>
                 </div>
                         
 

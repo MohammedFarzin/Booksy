@@ -11,7 +11,6 @@ from authentication.models import UserProfile
 # Create your views here.
 
 #cart
-
 def cart(request, total=0, quantity=0, cart_items=None):
     
     try:
