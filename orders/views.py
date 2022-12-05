@@ -26,6 +26,7 @@ from authentication.models import UserProfile
 
 @login_required(login_url='signin')
 def razorpay_check(request):
+    print('this arazorpay check ')
     if request.method == "POST":
         print('=-================asdfafafa====================dfafadfa=f=======================')
         payment_order = Payment()
@@ -43,7 +44,12 @@ def razorpay_check(request):
         order.payment = payment_order
         order.is_ordered = True
         order.status = 'Processing'
+        print('order status updated============================')
+        print("Grand total", request.POST.get('grand_total'))
         order.order_total = request.POST.get('grand_total')
+        print(order.order_total)
+
+        print('order total are updated ============================')
         order.save()
 
         # moving the order details into order product table
@@ -228,19 +234,19 @@ def apply_coupon(request):
                     current_user = request.user
                     cart_items = CartItems.objects.filter(user=current_user)
                     tax = 0
-                    total_amount = 0
+                    grand_total = 0
                     for cart_item in cart_items:
-                        total_amount += (cart_item.product.price *
+                        grand_total += (cart_item.product.price *
                                          cart_item.quantity)
-                    tax = (2*total_amount)/100
-                    sub_total = total_amount-tax
+                    tax = (2*grand_total)/100
+                    sub_total = grand_total-tax
                     coupon_discount = coupon[0].discount_price
-                    total_amount -= coupon_discount
+                    grand_total -= coupon_discount
 
                     context = {
                         'order': order,
                         'cart_items': cart_items,
-                        'total_amount': total_amount,
+                        'grand_total': grand_total,
                         'tax': tax,
                         'sub_total': sub_total,
                         'coupon_discount': coupon_discount
