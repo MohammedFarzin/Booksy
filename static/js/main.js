@@ -296,8 +296,12 @@
                 prod_id:id
             },
             success:function(data) {
-                swal.fire("Congratulations ! ", data.message, "success")
-                location.reload();
+                swal.fire("Congratulations ! ", data.message, "success").then((value) => {
+
+                    location.reload()
+                    console.log(order_number)
+                });
+                
                 
             }
         })
@@ -314,15 +318,17 @@
                 prod_id:id
             },
             success:function(data) {
-                swal.fire("Congratulations ! ", "Wishlist removed ", "success")
-                location.reload();
+                swal.fire("Congratulations ! ", "Wishlist removed ", "success").then((value) => {
+
+                    location.reload()
+                    console.log(order_number)
+                });
+                
                 
             }
         })
         
-        setTimeout(function(){
-            window.location.reload();
-         }, 10000);
+        
     });
 
 
