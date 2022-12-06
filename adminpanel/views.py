@@ -291,7 +291,7 @@ def cancel_order(request, order_number):
     order.status = 'Cancelled'
     order.save()
 
-    return redirect('order_management')
+    return redirect('admin_orders')
 
 
 # ADMIN VARIATION MANAGEMENT
