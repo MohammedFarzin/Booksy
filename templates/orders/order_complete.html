@@ -91,7 +91,12 @@
                                                 <th colspan="2" class="text-right">Tax:</th>
                                                 <th class="text-center">₹{{order.tax}} RS</th>
                                             </tr>
-
+                                            {% if order.coupon_discount %}
+                                                <tr>
+                                                    <th colspan="2" class="text-right">Discount:</th>
+                                                    <th class="text-center">₹{{order.coupon_discount}} RS</th>
+                                                </tr>
+                                            {% endif %}
                                             <tr>
                                                 <th colspan="2" class="text-right">Grand Total:</th>
                                                 <th class="text-center">₹{{order.order_total}} RS</th>
@@ -205,6 +210,13 @@
                                                     <th colspan="2" class="text-right">Tax:</th>
                                                     <th class="text-center">₹{{order.tax}} RS</th>
                                                 </tr>
+                                                
+                                                {% if order.coupon_discount %}
+                                                <tr>
+                                                    <th colspan="2" class="text-right">Discount:</th>
+                                                    <th class="text-center">₹{{order.coupon_discount}} RS</th>
+                                                </tr>
+                                                {% endif %}
     
                                                 <tr>
                                                     <th colspan="2" class="text-right">Grand Total:</th>

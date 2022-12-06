@@ -146,6 +146,7 @@ def signin(request):
                         nextPage = params['next']
                         return redirect(nextPage)
                 except:
+                    print('this is an error')
                     return redirect('home')
 
             else:
